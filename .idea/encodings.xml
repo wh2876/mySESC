@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Other/api-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Servers/config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Servers/discovery-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Services/student-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Services/topic-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/api-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/discovery-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/student-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/student/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/topic-service/src/main/java" charset="UTF-8" />
+  </component>
+</project>

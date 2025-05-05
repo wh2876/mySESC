@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+  <title>Student Portal</title>
+  <meta th:replace="fragments/header"/>
+
+  <!-- tab code taken from https://www.geeksforgeeks.org/how-to-create-tabs-containing-different-content-in-html/ -->
+  <style>
+    [data-tab-info] {
+      display: none;
+    }
+
+    .active[data-tab-info] {
+      display: block;
+    }
+
+    .tab-content {
+      margin-top: 1rem;
+      padding-left: 1rem;
+      font-size: 20px;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: rgb(0, 0, 0);
+    }
+
+    .tabs {
+      border-bottom: 1px solid grey;
+      background-color: rgb(255,255,255);
+      font-size: 25px;
+      color: rgb(0, 0, 0);
+      display: flex;
+      margin: 0;
+    }
+
+    .tabs span {
+      background: rgb(0,180,255);
+      padding: 10px;
+      border: 1px solid rgb(255, 255, 255);
+    }
+
+    .tabs span:hover {
+      background: rgb(00, 141, 235);
+      cursor: pointer;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="fragments/nav"></div>
+
+<div class="container-fluid">
+  <!--/*@thymesVar id="student" type="uk.ac.leedsbeckett.student.model.Student"*/-->
+  <div th:if="${student!=null && student.dataFilled()==true}">
+    <div class="container-fluid">
+      <div class="row-cols-2">
+        <h1>Editing Details for Student</h1>
+        <h1 th:text=" ${student.externalStudentId}"></h1>
+      </div>
+      <!--/*@thymesVar id="updatedStudent" type="uk.ac.leedsbeckett.student.model.Student"*/-->
+      <form action="#" th:action="@{/portal/account/edit}" th:object="${updatedStudent}" method="post">
+        <div class="col-sm-9">
+          <label for="editF">New Forename</label>
+          <input type="text" id="editF" th:field="*{forename}" onkeydown="hideAlert()">
+          <div id="alertef" class="alert alert-warning w-25" role="alert"
+               th:if="${#fields.hasErrors('forename')}"
+               th:errors="*{forename}">studentId error
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <label for="editS">New Surname:</label>
+          <input type="text" id="editS" th:field="*{surname}" onkeydown="hideAlert()">
+          <div id="alertes" class="alert alert-warning w-25" role="alert"
+               th:if="${#fields.hasErrors('surname')}"
+               th:errors="*{surname}">studentId error
+          </div>
+        </div>
+        <div class="row">
+          <div class="btn-group">
+            <div class="col-xs-6">
+              <button class="btn btn-secondary btn-block" type="submit">Confirm Changes</button>
+
+            </div>
+          </div>
+        </div>
+      </form>
+      <form action="#" th:action="@{/portal/account}" method="get">
+        <!-- only first and last name editable -->
+        <button class="btn btn-secondary btn-block" type="submit">Cancel</button>
+      </form>
+    </div>
+    <!--/*@thymesVar id="updatedStudent" type="uk.ac.leedsbeckett.student.model.Student"*/-->
+
+  </div>
+  <div th:if="${student==null || student.dataFilled()==false}">
+    <meta http-equiv="refresh" content="0; http://localhost:8082/student/portal/account" />
+  </div>
+</div>
+</body>
+</html>

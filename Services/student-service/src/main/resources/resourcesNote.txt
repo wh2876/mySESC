@@ -1,0 +1,35 @@
+Originally I just copied all the static/template files from the finance service since they weren't created for me (likely due to the relevant dependency missing when using sprint initializr)
+I also copied the code from a GeeksForGeeks site for tabs in html, but didnt use any of the tab stuff in the end (replaced it with usage of the navbar, copied from finance service), but forgot to remove the <header> stuff. I am avoiding removing it to prevent accidentally creating any problems while I am finishing up the assignment
+
+When I added comments to the html files, some of them caused runtime problems, so I'm putting a brief breakdown of each of them here
+
+__header.html__
+same as from finance service, changed author content from tvergilio to williamHart just now, didn't test, hopefully hasn't broken anything
+
+__nav.html__
+largely the same, just added two extra nav elements and changed colour of some text
+
+__courses.html__
+uses courseList, student, and financeConnected model attributes
+displays courses in a list, with an enroll/disenroll button that changes depending on current signedIn/Enrollment status, or just says unavailable if finance service is innaccessible
+redirects user to account page if they try to enroll while not signed in
+
+__editStudent.html__
+uses updatedStudent modelAttribute
+has 2 boxes for forename and surname changes,. displays error msgs if invalid entries are submitted
+allows user to cancel which goes back regular account page
+
+__error.html__
+copied exactly from finance service, no real need to change
+
+__portal.html__
+just has a short explanation of what the user can do
+should have links to finance and library portal I think, but its not like the user can make use of those unless they are signed in anyway
+
+__student.html__
+uses student, signIn, register, and financeConnected modelAttributes
+displays sign in / register boxes+buttons if not signed in
+
+if signed in
+displays student info, courses enrolled in, graduation eligibility, invoices, and edit account+log out buttons
+once signed in the user can enroll/disenroll from courses

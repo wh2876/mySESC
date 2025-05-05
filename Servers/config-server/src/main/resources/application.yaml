@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/LBUSESC/microservices-config-server
+          default-label: main
+          clone-on-start: true
+server:
+  port: 8888
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka  # Eureka server address
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Exposing all management endpoints
+  endpoint:
+    info:
+      enabled: true

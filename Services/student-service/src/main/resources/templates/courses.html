@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title>Student Portal</title>
+    <meta th:replace="fragments/header"/>
+</head>
+<body>
+    <div th:replace="fragments/nav"></div>
+    <h3>Courses</h3>
+    <div class="container-fluid">
+        <table class="table" data-toggle="table" id="courseTable">
+            <thead class="thead-light">
+            <tr>
+                <th class=narrow-width scope="col">Course Code</th>
+                <th class=normal-width data-sortable="true" scope="col">Title</th>
+                <th class=wide-width data-sortable="true" scope="col">Description</th>
+                <th class=narrow-width data-sortable="true" scope="col">Fee</th>
+                <th class=narrow-width scope="col">Enroll/Disenroll</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--/*@thymesVar id="courses" type="java.util.List"*/-->
+            <tr th:each="course: ${courses}">
+                    <!--/*@thymesVar id="course" type="uk.ac.leedsbeckett.student.model.Course"*/-->
+                    <td th:text="*{course.id}">ID</td>
+                    <td th:text="*{course.title}">Title</td>
+                    <td th:text="*{course.description}">Description</td>
+                    <td th:text="*{course.fee}">Fee</td>
+                    <td>
+                        <!--/*@thymesVar id="financeConnected" type="boolean"*/-->
+                        <div th:if="${financeConnected}==true">
+                            <form th:action="@{/portal/courses}" method="post">
+                                <input type="hidden" name="courseId" th:value="${course.id}" />
+                                <!--/*@thymesVar id="student" type="uk.ac.leedsbeckett.student.model.Student"*/-->
+                                <div th:if="${!student.dataFilled() || !student.isInCourse(course)}">
+                                    <button class="btn btn-primary btn-block" type="submit">Enroll</button>
+                                </div>
+                                <div th:if="${student.dataFilled() && student.isInCourse(course)}">
+                                    <button class="btn btn-danger btn-block" type="submit">Disenroll</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div th:if="${financeConnected}==false">
+                            Unavailable
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+originally there were some exceptions here, but it felt unnecessary since I didn't make great use of them, they were just named RunTimeExceptions
+I'm aware the finance service has "advice" classes to handle them but tried implementing those and I couldn't see any effect so I just removed all the exception stuff and change them to RunTimeExceptions

@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title>Student Portal</title>
+    <meta th:replace="fragments/header"/>
+
+    <!-- tab code taken from https://www.geeksforgeeks.org/how-to-create-tabs-containing-different-content-in-html/ -->
+    <style>
+        [data-tab-info] {
+            display: none;
+        }
+
+        .active[data-tab-info] {
+            display: block;
+        }
+
+        .tab-content {
+            margin-top: 1rem;
+            padding-left: 1rem;
+            font-size: 20px;
+            font-family: sans-serif;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+        }
+
+        .tabs {
+            border-bottom: 1px solid grey;
+            background-color: rgb(255,255,255);
+            font-size: 25px;
+            color: rgb(0, 0, 0);
+            display: flex;
+            margin: 0;
+        }
+
+        .tabs span {
+            background: rgb(0,180,255);
+            padding: 10px;
+            border: 1px solid rgb(255, 255, 255);
+        }
+
+        .tabs span:hover {
+            background: rgb(00, 141, 235);
+            cursor: pointer;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/nav"></div>
+
+<div class="container-fluid">
+    <!--/*@thymesVar id="student" type="uk.ac.leedsbeckett.student.model.Student"*/-->
+    <div th:if="${student!=null && student.dataFilled()==true}">
+        <div class="container-fluid">
+            <h1>Student</h1>
+                <dl class="row col-md-3">
+                    <dt class="col-sm-9">Student ID:</dt>
+                    <dd class="col-sm-3" th:text="${student.externalStudentId}"></dd>
+                    <dt class="col-sm-9">First name:</dt>
+                    <dd class="col-sm-3" th:text="${student.forename}"></dd>
+                    <dt class="col-sm-9">Last name:</dt>
+                    <dd class="col-sm-3" th:text="${student.surname}"></dd>
+                    <dt class="col-sm-9">Enrolled courses:</dt>
+                    <dd>
+                        <table class="table" data-toggle="table" id="courseTable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th class=normal-width data-sortable="true" scope="col">Title</th>
+                                <th class=wide-width data-sortable="true" scope="col">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--/*@thymesVar id="courses" type="java.util.List"*/-->
+                            <tr th:each="course: ${student.getCoursesEnrolledIn()}">
+                                <!--/*@thymesVar id="course" type="uk.ac.leedsbeckett.student.model.Course"*/-->
+                                <td th:text="*{course.title}">Title</td>
+                                <td th:text="*{course.description}">Description</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </dd>
+                </dl>
+                <div class="row-cols-5" >
+                    <!--/*@thymesVar id="financeConnected" type="boolean"*/-->
+                    <div th:if="${financeConnected==true}">
+                        <!--/*@thymesVar id="outstanding" type="boolean"*/-->
+                        <span class="h3" th:if="${outstanding}==true">
+                            Outstanding Invoices: Cannot Graduate</span>
+                        <span class="h3" th:if="${outstanding}==false">
+                            No Outstanding Invoices: Can Graduate</span>
+                    </div>
+                    <div th:if="${financeConnected==false}">
+                        <span class="h3">Could not connect to finance service. Graduation applicability unknown due to possible outstanding invoices.</span>
+                    </div>
+                    <span class="h3">|</span>
+                    <a class="h3" href="http://localhost:8081">Go To Invoice Portal</a>
+                    <span class="h3">|</span>
+                    <a class="h3" href="http://localhost:80">Go To Library Portal</a>
+                </div>
+            <div class="row">
+                <table class="table" data-toggle="table" id="invoiceTable">
+                    <thead class="thead-light">
+                    <tr>
+                        <th class=normal-width data-sortable="true" scope="col">Reference</th>
+                        <th class=wide-width data-sortable="true" scope="col">Amount</th>
+                        <th class=wide-width data-sortable="true" scope="col">Due-Date</th>
+                        <th class=wide-width data-sortable="true" scope="col">Type</th>
+                        <th class=wide-width data-sortable="true" scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--/*@thymesVar id="studentInvoices" type="java.util.List"*/-->
+                    <tr th:each="invoice: ${studentInvoices}">
+                        <!--/*@thymesVar id="invoice" type="uk.ac.leedsbeckett.student.model.Invoice"*/-->
+                        <td th:text="*{invoice.reference}">Reference</td>
+                        <td th:text="*{invoice.amount}">Amount</td>
+                        <td th:text="*{invoice.type}">Type</td>
+                        <td th:text="*{invoice.dueDate}">Due-Date</td>
+                        <td th:text="*{invoice.status}">Status</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="btn-group">
+                    <div class="col-xs-6">
+                        <!--/*@thymesVar id="editing" type="boolean"*/-->
+                        <form action="#" th:action="@{/portal/account/edit}" method="get">
+                            <!-- only first and last name editable -->
+                            <button class="btn btn-secondary btn-block" type="submit">Edit Info</button>
+                        </form>
+                    </div>
+                    <div class="col-xs-6">
+                        <form action="#" th:action="@{/portal/account/logout}" method="post">
+                            <button class="btn btn-secondary btn-block" type="submit">Log Out</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${student==null || student.dataFilled()==false}">
+        <div class="row">
+            <div class="col">
+                <!--/*@thymesVar id="signInInfo" type="uk.ac.leedsbeckett.student.model.SignInInfo"*/-->
+                <form action="#" th:action="@{/portal/account}" th:object="${signInInfo}" method="post">
+                    <div class="mb-3">
+                        <label for="studentId" class="form-label">Student ID:</label>
+                        <input type="text" class="form-control w-25" id="studentId" aria-describedby="studentIdHelp"
+                               th:field="*{externalStudentId}" onkeydown="hideAlert()">
+                        <div id="studentIdHelp" class="form-text">Enter your student ID.</div>
+                        <div id="alert" class="alert alert-warning w-25" role="alert"
+                             th:if="${#fields.hasErrors('externalStudentId')}"
+                             th:errors="*{externalStudentId}">studentId error
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                </form>
+            </div>
+            <div class="col">
+                <!--/*@thymesVar id="registerInfo" type="uk.ac.leedsbeckett.student.model.RegisterInfo"*/-->
+                <form action="#" th:action="@{/portal/account/register}" th:object="${registerInfo}" method="post">
+                    <div class="mb-3">
+                        <label for="fname" class="form-label">First Name:</label>
+                        <input type="text" class="form-control w-25" id="fname"
+                               th:field="*{forename}" onkeydown="hideAlert()">
+                        <div id="fnamealert" class="alert alert-warning w-25" role="alert"
+                             th:if="${#fields.hasErrors('forename')}"
+                             th:errors="*{forename}">forename error
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lname" class="form-label">Last Name:</label>
+                        <input type="text" class="form-control w-25" id="lname"
+                               th:field="*{surname}" onkeydown="hideAlert()">
+                        <div id="lnamealert" class="alert alert-warning w-25" role="alert"
+                             th:if="${#fields.hasErrors('surname')}"
+                             th:errors="*{surname}">surname error
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  main:
+    web-application-type: reactive  # You are using WebFlux, so this is correct
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # Enable dynamic route discovery from Eureka
+      loadbalancer:
+        retry:
+          enabled: true  # Enables retry mechanism for failed requests
+      routes:
+        - id: student-service-route
+          uri: lb://student-service  # Using service discovery (Eureka)
+          predicates:
+            - Path=/student/**  # This will match all requests to /student/** (POST, GET, PUT, DELETE)
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://localhost:8761/eureka  # Eureka server address
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <title>Student Portal</title>
+    <meta th:replace="fragments/header"/>
+
+    <!-- tab code taken from https://www.geeksforgeeks.org/how-to-create-tabs-containing-different-content-in-html/ -->
+    <style>
+    [data-tab-info] {
+    display: none;
+    }
+
+    .active[data-tab-info] {
+    display: block;
+    }
+
+    .tab-content {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    font-size: 20px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    }
+
+    .tabs {
+    border-bottom: 1px solid grey;
+    background-color: rgb(255,255,255);
+    font-size: 25px;
+    color: rgb(0, 0, 0);
+    display: flex;
+    margin: 0;
+    }
+
+    .tabs span {
+    background: rgb(0,180,255);
+    padding: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    }
+
+    .tabs span:hover {
+    background: rgb(00, 141, 235);
+    cursor: pointer;
+    color: white;
+    }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/nav"></div>
+
+<div class="container-fluid">
+    <h1>WELCOME TO THE HOME PAGE</h1>
+    <h2>CLICK ON ACCOUNT TO LOG IN/REGISTER AND VIEW YOUR STUDENT DETAILS</h2>
+    <h2>OR CLICK ON COURSES TO VIEW, ENROLL, AND DISENROLL IN COURSES</h2>
+</div>
+</body>
+</html>

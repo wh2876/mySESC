@@ -1,0 +1,18 @@
+spring:
+    application:
+        name: student-service
+
+    config:
+        import: configserver:http://localhost:8888/
+        fail-fast: true
+
+    jpa:
+        properties:
+            javax:
+                persistence:
+                    validation:
+                        mode: none
+server:
+    error:
+        whitelabel:
+            enabled: false
